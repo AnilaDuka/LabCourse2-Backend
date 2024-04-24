@@ -1,10 +1,18 @@
-const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 3000;
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const productRoutes = require("./routes/productsRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
 
-app.get('/', (req, res) => {
-  res.send('Hello from the backend!');
-});
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(cors());
+
+app.use(bodyParser.json());
+
+app.use("/api", productRoutes);
+app.use("/api", categoryRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
