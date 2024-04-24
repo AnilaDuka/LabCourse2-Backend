@@ -9,13 +9,13 @@ const connection = mysql.createConnection({
 
 connection.connect();
 
-class Product {
+class User {
   static getAll(callback) {
-    connection.query("SELECT * FROM products", (error, results, fields) => {
+    connection.query("SELECT * FROM users", (error, results, fields) => {
       if (error) throw error;
       callback(results);
     });
   }
 }
 
-module.exports = Product;
+module.exports = User;
