@@ -3,7 +3,7 @@ const mysql = require("mysql");
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "Ylli159951",
+  password: "12345",
   database: "labcourse2",
 });
 
@@ -19,7 +19,7 @@ class Product {
 
   static getById(id, callback) {
     connection.query(
-      "SELECT * FROM products WHERE id = ?",
+      "SELECT * FROM products WHERE productId = ?",
       [id],
       (error, results, fields) => {
         if (error) throw error;
@@ -41,7 +41,7 @@ class Product {
 
   static update(id, productData, callback) {
     connection.query(
-      "UPDATE products SET ? WHERE id = ?",
+      "UPDATE products SET ? WHERE productId = ?",
       [productData, id],
       (error, results, fields) => {
         if (error) throw error;
@@ -52,7 +52,7 @@ class Product {
 
   static delete(id, callback) {
     connection.query(
-      "DELETE FROM products WHERE id = ?",
+      "DELETE FROM products WHERE productId = ?",
       [id],
       (error, results, fields) => {
         if (error) throw error;
