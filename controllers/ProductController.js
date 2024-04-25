@@ -1,65 +1,36 @@
-const mysql = require("mysql");
+const Product = require("../models/Product");
 
-const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "12345",
-  database: "labcourse2",
-});
+exports.getAllProducts = (req, res) => {
+  Product.getAll((products) => {
+    res.json(products);
+  });
+};
 
-connection.connect();
+exports.getProductById = (req, res) => {
+  const productId = req.params.id;
+  Product.getById(productId, (product) => {
+    res.json(product);
+  });
+};
 
-class Product {
-  static getAll(callback) {
-    connection.query("SELECT * FROM products", (error, results, fields) => {
-      if (error) throw error;
-      callback(results);
-    });
-  }
+exports.createProduct = (req, res) => {
+  const productData = req.body;
+  Product.create(productData, (productId) => {
+    res.json({ id: productId });
+  });
+};
 
-  static getById(id, callback) {
-    connection.query(
-      "SELECT * FROM products WHERE id = ?",
-      [id],
-      (error, results, fields) => {
-        if (error) throw error;
-        callback(results[0]);
-      }
-    );
-  }
+exports.updateProduct = (req, res) => {
+  const productId = req.params.id;
+  const productData = req.body;
+  Product.update(productId, productData, (rowsAffected) => {
+    res.json({ affectedRows: rowsAffected });
+  });
+};
 
-  static create(productData, callback) {
-    connection.query(
-      "INSERT INTO products SET ?",
-      productData,
-      (error, results, fields) => {
-        if (error) throw error;
-        callback(results.insertId);
-      }
-    );
-  }
-
-  static update(id, productData, callback) {
-    connection.query(
-      "UPDATE products SET ? WHERE id = ?",
-      [productData, id],
-      (error, results, fields) => {
-        if (error) throw error;
-        callback(results.changedRows);
-      }
-    );
-  }
-
-  static delete(id, callback) {
-    connection.query(
-      "DELETE FROM products WHERE id = ?",
-      [id],
-      (error, results, fields) => {
-        if (error) throw error;
-        callback(results.affectedRows);
-      }
-    );
-  }
-}
-
-module.exports = Product;
+exports.deleteProduct = (req, res) => {
+  const productId = req.params.id;
+  Product.delete(productId, (rowsAffected) => {
+    res.json({ affectedRows: rowsAffected });
+  });
+};

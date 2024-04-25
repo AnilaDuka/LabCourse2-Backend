@@ -19,7 +19,7 @@ class Product {
 
   static getById(id, callback) {
     connection.query(
-      "SELECT * FROM products WHERE productId = ?",
+      "SELECT * FROM products WHERE id = ?",
       [id],
       (error, results, fields) => {
         if (error) throw error;
@@ -41,7 +41,7 @@ class Product {
 
   static update(id, productData, callback) {
     connection.query(
-      "UPDATE products SET ? WHERE productId = ?",
+      "UPDATE products SET ? WHERE id = ?",
       [productData, id],
       (error, results, fields) => {
         if (error) throw error;
@@ -52,7 +52,7 @@ class Product {
 
   static delete(id, callback) {
     connection.query(
-      "DELETE FROM products WHERE productId = ?",
+      "DELETE FROM products WHERE id = ?",
       [id],
       (error, results, fields) => {
         if (error) throw error;
